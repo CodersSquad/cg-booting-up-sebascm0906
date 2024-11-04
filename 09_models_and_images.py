@@ -17,7 +17,6 @@ pygame.display.set_mode((800, 800), flags=pygame.OPENGL | pygame.DOUBLEBUF, vsyn
 class ImageTexture:
     def __init__(self, path):
         self.ctx = moderngl.get_context()
-
         img = Image.open(path).convert('RGBA')
         self.texture = self.ctx.texture(img.size, 4, img.tobytes())
         self.sampler = self.ctx.sampler(texture=self.texture)
@@ -106,13 +105,13 @@ class Scene:
             ''',
         )
 
-        self.texture = ImageTexture('examples/data/textures/crate.png')
+        self.logo_texture = ImageTexture('j.jpg')
 
-        self.car_geometry = ModelGeometry('examples/data/models/lowpoly_toy_car.obj')
-        self.car = Mesh(self.program, self.car_geometry)
+        self.car_geometry = ModelGeometry('Labrador-Retriever_02.OBJ')
+        self.car = Mesh(self.program, self.car_geometry) 
 
-        self.crate_geometry = ModelGeometry('examples/data/models/crate.obj')
-        self.crate = Mesh(self.program, self.crate_geometry, self.texture)
+        self.crate_geometry = ModelGeometry('Labrador-Retriever_02.OBJ')
+        self.crate = Mesh(self.program, self.crate_geometry, self.logo_texture)  
 
     def camera_matrix(self):
         now = pygame.time.get_ticks() / 1000.0
@@ -130,7 +129,9 @@ class Scene:
         self.program['camera'].write(camera)
 
         self.car.render((-0.4, 0.0, 0.0), (1.0, 0.0, 0.0), 0.2)
+
         self.crate.render((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), 0.2)
+
         self.car.render((0.4, 0.0, 0.0), (0.0, 0.0, 1.0), 0.2)
 
 
